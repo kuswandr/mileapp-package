@@ -85,4 +85,40 @@ class PackageRepository implements PackageRepositoryContract
             return null;
         }
     }
+
+    /**
+     * Delete Data By Transaction Id
+     * @param  $id
+     * @param  Package $package
+     * @return bool
+     */
+    public function deleteByTransactionId($transaction_id, Package $package): bool
+    {
+        try {
+            $package = $this->getByTransactionId($transaction_id, $package);
+
+            if ($package != null) {
+                $package->delete();
+
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            report($e);
+
+            return false;
+        }
+    }
+
+    /**
+     * Get Data By ID
+     * @param $id
+     * @param Package $package
+     * @return Candidate|null
+     */
+    public function getByTransactionId($transaction_id, Package $package): ?Package
+    {
+        return $package->where('transaction_id', $transaction_id)->first();
+    }
 }

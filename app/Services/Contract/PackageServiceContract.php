@@ -24,4 +24,8 @@ interface PackageServiceContract
         PackageParameter $packageParameter,
         PackageRepository $packageRepository
     );
+    public function delete(
+        PackageParameter $packageParameter,
+        PackageRepository $packageRepository
+    );
 }
