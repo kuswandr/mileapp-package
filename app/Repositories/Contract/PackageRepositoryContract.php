@@ -14,4 +14,8 @@ use App\Models\Package;
 interface PackageRepositoryContract
 {
     public function getAll(Package $package): Collection;
+    public function getOne(PackageParameter $packageParameter, Package $package): ?Package;
+    public function create(PackageParameter $packageParameter, Package $package): ?Package;
+    public function filter(PackageParameter $packageParameter, Package $package);
+
 }

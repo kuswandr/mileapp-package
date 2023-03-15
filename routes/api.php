@@ -22,6 +22,7 @@ Route::name('api.v1.')->prefix('v1')->namespace('API\V1')->group(function () {
     // Route::middleware(['auth:api'])->group(function () {
         Route::name('package.')->prefix('package')->namespace('Package')->group(function () {
             Route::get('/', ListPackageController::class)->name('list');
+            Route::get('/{id}', DetailPackageController::class)->name('detail');
             Route::post('/', CreatePackageController::class)->name('create');
         });
     // });

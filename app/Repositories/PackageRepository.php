@@ -15,7 +15,33 @@ class PackageRepository implements PackageRepositoryContract
      */
     public function getAll(Package $package): Collection
     {
-        return Package::all();
+        return $package->all();
+    }
+
+    /**
+     * Get Data By Transaction Id
+     * @param $transaction_id
+     * @param Candidate $candidate
+     * @return Candidate|null
+     */
+    public function getOne(PackageParameter $packageParameter, Package $package): ?Package
+    {
+        $package = $this->filter($packageParameter, $package);
+
+        return $package->first();
+    }
+
+    /**
+     * Package Filter
+     * @param  PackageParameter $packageParameter
+     * @param  Package $package
+     */
+    public function filter(PackageParameter $packageParameter, Package $package)
+    {
+        if (!empty($packageParameter->getTransactionId())) {
+            $package = $package->where('transaction_id', $packageParameter->getTransactionId());
+        }
+        return $package;
     }
 
     /**

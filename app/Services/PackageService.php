@@ -37,5 +37,20 @@ class PackageService implements PackageServiceContract
             return $th;
         }
     }
+
+    public function detail(
+        PackageParameter $packageParameter,
+        PackageRepository $packageRepository
+    ) {
+        try {
+            $this->data = app()->call(
+                [$packageRepository, 'getOne'],
+                ['packageParameter' => $packageParameter]
+            );
+            return $this;
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
     
 }
