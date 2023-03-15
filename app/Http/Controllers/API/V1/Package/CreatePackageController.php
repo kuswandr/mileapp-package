@@ -1,0 +1,53 @@
+<?php
+namespace App\Http\Controllers\API\V1\Package;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CreatePackageRequest;
+use App\Parameters\PackageParameter;
+use App\Services\Contract\PackageServiceContract as PackageService;
+
+class CreatePackageController extends Controller
+{
+    function __invoke(
+        CreatePackageRequest $request,
+        PackageService $packageService,
+        PackageParameter $packageParameter
+    )
+    {
+        try {
+            $packageParameter->setTransactionId($request->transaction_id);
+            $packageParameter->setCustomerName($request->customer_name);
+            $packageParameter->setCustomerCode($request->customer_code);
+            $packageParameter->setTransactionAmount($request->transaction_amount);
+            $packageParameter->setTransactionDiscount($request->transaction_discount);
+            $packageParameter->setAdditionalField($request->transaction_additional_field);
+            $packageParameter->setTransactionPaymentType($request->transaction_payment_type);
+            $packageParameter->setTransactionState($request->transaction_state);
+            $packageParameter->setTransactionCode($request->transaction_code);
+            $packageParameter->setTransactionOrder($request->transaction_order);
+            $packageParameter->setLocationId($request->location_id);
+            $packageParameter->setOrganizationId($request->organization_id);
+            $packageParameter->setTransactionPaymentTypeName($request->transaction_payment_type_name);
+            $packageParameter->setTransactionCashAmount($request->transaction_cash_amount);
+            $packageParameter->setTransactionCashChange($request->transaction_cash_change);
+            $packageParameter->setCustomerAttribute($request->customer_attribute);
+            $packageParameter->setConnote($request->connote);
+            $packageParameter->setConnoteId($request->connote_id);
+            $packageParameter->setOriginData($request->origin_data);
+            $packageParameter->setDestinationData($request->destination_data);
+            $packageParameter->setKoliData($request->koli_data);
+            $packageParameter->setCustomField($request->custom_field);
+            $packageParameter->setCurrentLocation($request->currentLocation);
+            $response = app()->call(
+                [$packageService, 'create'],
+                [
+                    'packageParameter' => $packageParameter
+                ]
+            );
+            return response()->json(['message' => 'sukses'], 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+    }
+}

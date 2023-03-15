@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::name('api.v1.')->prefix('v1')->namespace('API\V1')->group(function () {
+    // Route::middleware(['auth:api'])->group(function () {
+        Route::name('package.')->prefix('package')->namespace('Package')->group(function () {
+            Route::get('/', ListPackageController::class)->name('list');
+            Route::post('/', CreatePackageController::class)->name('create');
+        });
+    // });
+});
