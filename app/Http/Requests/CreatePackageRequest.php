@@ -26,7 +26,7 @@ class CreatePackageRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            "transaction_id" => ['required', 'string'],
+            "transaction_id" => ['required', 'string', 'unique:package'],
             "customer_name" => ['required', 'string'],
             "customer_code" => ['required', 'numeric'],
             "transaction_amount" => ['required', 'numeric'],

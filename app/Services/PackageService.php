@@ -37,5 +37,45 @@ class PackageService implements PackageServiceContract
             return $th;
         }
     }
+
+    public function detail(
+        PackageParameter $packageParameter,
+        PackageRepository $packageRepository
+    ) {
+        try {
+            $this->data = app()->call(
+                [$packageRepository, 'getOne'],
+                ['packageParameter' => $packageParameter]
+            );
+            return $this;
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
+
+    public function delete(
+        PackageParameter $packageParameter,
+        PackageRepository $packageRepository
+    ) {
+        try {
+            $package= app()->call(
+                [$packageRepository, 'getOne'],
+                ['packageParameter' => $packageParameter]
+            );
+
+            if (!$package) {
+                // threw error
+            }
+
+            $delete = app()->call(
+                [$packageRepository, 'deleteByTransactionId'],
+                [
+                    'transaction_id' => $packageParameter->getTransactionId()
+                ]
+            );
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
     
 }
