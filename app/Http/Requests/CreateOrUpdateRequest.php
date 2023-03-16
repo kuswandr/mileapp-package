@@ -28,7 +28,6 @@ class CreateOrUpdateRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            "transaction_id" => ['required', 'string'],
             "customer_name" => ['required', 'string'],
             "customer_code" => ['required', 'numeric'],
             "transaction_amount" => ['required', 'numeric'],

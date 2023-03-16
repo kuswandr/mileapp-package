@@ -41,7 +41,7 @@ class UpdatePackageController extends Controller
             $packageParameter->setCustomField($request->custom_field);
             $packageParameter->setCurrentLocation($request->currentLocation);
             $response = app()->call(
-                [$packageService, 'createOrUpdate'],
+                [$packageService, 'update'],
                 [
                     'packageParameter' => $packageParameter
                 ]

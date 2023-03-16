@@ -20,8 +20,8 @@ class PackageService implements PackageServiceContract
                 [$packageRepository, 'getAll']
             );
             return $this;
-        } catch (ServiceException $th) {
-            return $th;
+        } catch (ServiceException $e) {
+            throw new ServiceException($e->getMessage(), 500);
         }
     }
 
@@ -56,8 +56,40 @@ class PackageService implements PackageServiceContract
             }
             
             return $this;
-        } catch (ServiceException $th) {
-            return $th;
+        } catch (ServiceException $e) {
+            throw new ServiceException($e->getMessage(), 500);
+        }
+    }
+
+    public function update(
+        PackageParameter $packageParameter,
+        PackageRepository $packageRepository
+    ) {
+        try {
+            // if ($packageParameter->getTransactionId()) {
+                $package = app()->call(
+                    [$packageRepository, 'getByTransactionId'],
+                    [
+                        'transaction_id' => $packageParameter->getTransactionId()
+                    ]
+                );
+
+                if (!$package) {
+                    throw new ServiceException("Package Not Found", 404);
+                } else {
+                    $this->data = app()->call(
+                        [$packageRepository, 'updateByTransactionId'],
+                        [
+                            'id' => $packageParameter->getTransactionId(),
+                            'packageParameter' => $packageParameter
+                        ]
+                    );
+                    return $this;
+                }
+            // }
+
+        } catch (ServiceException $e) {
+            throw new ServiceException($e->getMessage(), 500);
         }
     }
 
@@ -72,7 +104,7 @@ class PackageService implements PackageServiceContract
             );
 
             if (!$this->data) {
-                throw new ServiceException("Candidate Not Found", 404);
+                throw new ServiceException("Package Not Found", 404);
             }
             return $this;
         } catch (ServiceException $e) {
