@@ -43,6 +43,7 @@ class CreatePackageRequest extends FormRequest
             "transaction_payment_type_name" => ['required'],
             "transaction_cash_amount" => ['required', 'integer'],
             "transaction_cash_change" => ['required', 'integer'],
+            // "customer_attribute"
         ];
 
         return $rules;
