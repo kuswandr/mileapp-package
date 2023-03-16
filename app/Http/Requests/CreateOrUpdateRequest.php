@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreatePackageRequest extends FormRequest
+class CreateOrUpdateRequest extends FormRequest
 {
     use ApiRequest;
     /**
@@ -28,7 +28,6 @@ class CreatePackageRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            "transaction_id" => ['required', 'string', 'unique:package'],
             "customer_name" => ['required', 'string'],
             "customer_code" => ['required', 'numeric'],
             "transaction_amount" => ['required', 'numeric'],
@@ -56,8 +55,6 @@ class CreatePackageRequest extends FormRequest
             "custom_field" => ['required'],
             "currentLocation" => ['required']
         ];
-
-
 
         return $rules;
     }

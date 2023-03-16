@@ -53,29 +53,29 @@ class PackageRepository implements PackageRepositoryContract
     public function create(PackageParameter $packageParameter, Package $package): ?Package
     {
         try {
-            $package->transaction_id = $packageParameter->getTransactionId();
-            $package->customer_name = $packageParameter->getCustomerName();
-            $package->customer_code = $packageParameter->getCustomerCode();
-            $package->transaction_amount = $packageParameter->getTransactionAmount();
-            $package->transaction_discount = $packageParameter->getTransactionDiscount();
-            $package->transaction_additional_field = $packageParameter->getAdditionalField();
-            $package->transaction_payment_type = $packageParameter->getTransactionPaymentType();
-            $package->transaction_state = $packageParameter->getTransactionState();
-            $package->transaction_code = $packageParameter->getTransactionCode();
-            $package->transaction_order = $packageParameter->getTransactionOrder();
-            $package->location_id = $packageParameter->getLocationId();
-            $package->organization_id = $packageParameter->getOrganizationId();
-            $package->transaction_payment_type_name = $packageParameter->getTransactionPaymentTypeName();
-            $package->transaction_cash_amount = $packageParameter->getTransactionCashAmount();
-            $package->transaction_cash_change = $packageParameter->getTransactionCashChange();
-            $package->customer_attribute = $packageParameter->getCustomerAttribute();
-            $package->connote = $packageParameter->getConnote();
-            $package->connote_id = $packageParameter->getConnoteId();
-            $package->origin_data = $packageParameter->getOriginData();
-            $package->destination_data = $packageParameter->getDestinationData();
-            $package->koli_data = $packageParameter->getKoliData();
-            $package->custom_field = $packageParameter->getCustomField();
-            $package->currentLocation = $packageParameter->getCurrentLocation();
+            $packageParameter->getTransactionId() ? $package->transaction_id = $packageParameter->getTransactionId() : null;
+            $packageParameter->getCustomerName() ? $package->customer_name = $packageParameter->getCustomerName() : null;
+            $packageParameter->getCustomerCode() ? $package->customer_code = $packageParameter->getCustomerCode() : null;
+            $packageParameter->getTransactionAmount() ? $package->transaction_amount = $packageParameter->getTransactionAmount() : null;
+            $packageParameter->getTransactionDiscount() ? $package->transaction_discount = $packageParameter->getTransactionDiscount() : null;
+            $packageParameter->getAdditionalField() ? $package->transaction_additional_field = $packageParameter->getAdditionalField() : null;
+            $packageParameter->getTransactionPaymentType() ? $package->transaction_payment_type = $packageParameter->getTransactionPaymentType() : null;
+            $packageParameter->getTransactionState() ? $package->transaction_state = $packageParameter->getTransactionState() : null;
+            $packageParameter->getTransactionCode() ? $package->transaction_code = $packageParameter->getTransactionCode() : null;
+            $packageParameter->getTransactionOrder() ? $package->transaction_order = $packageParameter->getTransactionOrder() : null;
+            $packageParameter->getLocationId() ? $package->location_id = $packageParameter->getLocationId() : null;
+            $packageParameter->getOrganizationId() ? $package->organization_id = $packageParameter->getOrganizationId() : null;
+            $packageParameter->getTransactionPaymentTypeName() ? $package->transaction_payment_type_name = $packageParameter->getTransactionPaymentTypeName() : null;
+            $packageParameter->getTransactionCashAmount() ? $package->transaction_cash_amount = $packageParameter->getTransactionCashAmount() : null;
+            $packageParameter->getTransactionCashChange() ? $package->transaction_cash_change = $packageParameter->getTransactionCashChange() : null;
+            $packageParameter->getCustomerAttribute() ? $package->customer_attribute = $packageParameter->getCustomerAttribute() : null;
+            $packageParameter->getConnote() ? $package->connote = $packageParameter->getConnote() : null;
+            $packageParameter->getConnoteId() ? $package->connote_id = $packageParameter->getConnoteId() : null;
+            $packageParameter->getOriginData() ? $package->origin_data = $packageParameter->getOriginData() : null;
+            $packageParameter->getDestinationData() ? $package->destination_data = $packageParameter->getDestinationData() : null;
+            $packageParameter->getKoliData() ? $package->koli_data = $packageParameter->getKoliData() : null;
+            $packageParameter->getCustomField() ? $package->custom_field = $packageParameter->getCustomField() : null;
+            $packageParameter->getCurrentLocation() ? $package->currentLocation = $packageParameter->getCurrentLocation() : null;
             $package->save();
 
             return $package;
@@ -120,5 +120,29 @@ class PackageRepository implements PackageRepositoryContract
     public function getByTransactionId($transaction_id, Package $package): ?Package
     {
         return $package->where('transaction_id', $transaction_id)->first();
+    }
+
+    /**
+     * Update Data By ID
+     * @param  $id
+     * @param  PackageParameter $packageParameter
+     * @param  Package $package
+     * @return Package|null
+     */
+    public function updateByTransactionId($id, PackageParameter $packageParameter, Package $package): ?Package
+    {
+        try {
+            $getPackage = $this->getByTransactionId($id, $package);
+
+            if ($getPackage != null) {
+                $package = $getPackage;
+            }
+
+            return $this->create($packageParameter, $package);
+        } catch (\Exception $e) {
+            report($e);
+
+            return null;
+        }
     }
 }
