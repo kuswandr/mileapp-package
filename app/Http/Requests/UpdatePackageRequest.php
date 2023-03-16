@@ -41,6 +41,11 @@ class UpdatePackageRequest extends FormRequest
             "updated_at" => ['date'],
             "transaction_cash_amount" => ['integer'],
             "transaction_cash_change" => ['integer'],
+            "customer_attribute.Nama_Sales" => ['string'],
+            "customer_attribute.TOP" => ['string'],
+            "customer_attribute.Jenis_Pelanggan" => ['string'],
+            "connote_id" => ['string'],
+            "koli_data" => ['array'],
         ];
 
         return $rules;

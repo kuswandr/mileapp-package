@@ -45,8 +45,19 @@ class CreatePackageRequest extends FormRequest
             "transaction_payment_type_name" => ['required'],
             "transaction_cash_amount" => ['required', 'integer'],
             "transaction_cash_change" => ['required', 'integer'],
-            // "customer_attribute"
+            "customer_attribute.Nama_Sales" => ['required', 'string'],
+            "customer_attribute.TOP" => ['required', 'string'],
+            "customer_attribute.Jenis_Pelanggan" => ['required', 'string'],
+            "connote" => ['required'],
+            "connote_id" => ['required', 'string'],
+            "origin_data" => ['required'],
+            "destination_data" => ['required'],
+            "koli_data" => ['array'],
+            "custom_field" => ['required'],
+            "currentLocation" => ['required']
         ];
+
+
 
         return $rules;
     }
