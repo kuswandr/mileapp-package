@@ -121,4 +121,28 @@ class PackageRepository implements PackageRepositoryContract
     {
         return $package->where('transaction_id', $transaction_id)->first();
     }
+
+    /**
+     * Update Data By ID
+     * @param  $id
+     * @param  PackageParameter $packageParameter
+     * @param  Package $package
+     * @return Package|null
+     */
+    public function updateByTransactionId($id, PackageParameter $packageParameter, Package $package): ?Package
+    {
+        try {
+            $getPackage = $this->getByTransactionId($id, $package);
+
+            if ($getPackage != null) {
+                $package = $getPackage;
+            }
+
+            return $this->create($packageParameter, $package);
+        } catch (\Exception $e) {
+            report($e);
+
+            return null;
+        }
+    }
 }

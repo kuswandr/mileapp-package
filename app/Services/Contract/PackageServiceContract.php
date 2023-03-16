@@ -20,7 +20,7 @@ interface PackageServiceContract
         PackageParameter $packageParameter,
         PackageRepository $packageRepository
     );
-    public function create(
+    public function createOrUpdate(
         PackageParameter $packageParameter,
         PackageRepository $packageRepository
     );

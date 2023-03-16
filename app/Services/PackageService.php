@@ -25,15 +25,36 @@ class PackageService implements PackageServiceContract
         }
     }
 
-    public function create(
+    public function createOrUpdate(
         PackageParameter $packageParameter,
         PackageRepository $packageRepository
     ) {
         try {
-            $this->data = app()->call(
-                [$packageRepository, 'create'],
-                ['packageParameter' => $packageParameter]
-            );
+            if ($packageParameter->getTransactionId()) {
+                $package = app()->call(
+                    [$packageRepository, 'getByTransactionId'],
+                    [
+                        'transaction_id' => $packageParameter->getTransactionId()
+                    ]
+                );
+
+                if (!$package) {
+                    $this->data = app()->call(
+                        [$packageRepository, 'create'],
+                        ['packageParameter' => $packageParameter]
+                    );
+                } else {
+                    $this->data = app()->call(
+                        [$packageRepository, 'updateByTransactionId'],
+                        [
+                            'id' => $packageParameter->getTransactionId(),
+                            'packageParameter' => $packageParameter
+                        ]
+                        );
+                }
+                
+            }
+            
             return $this;
         } catch (ServiceException $th) {
             return $th;

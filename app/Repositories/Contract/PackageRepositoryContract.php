@@ -19,5 +19,6 @@ interface PackageRepositoryContract
     public function filter(PackageParameter $packageParameter, Package $package);
     public function deleteByTransactionId($id, Package $package): bool;
     public function getByTransactionId($transaction_id, Package $package): ?Package;
+    public function updateByTransactionId($id, PackageParameter $packageParameter, Package $package): ?Package;
 
 }

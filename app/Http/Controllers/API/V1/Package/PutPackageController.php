@@ -1,20 +1,20 @@
 <?php
+
 namespace App\Http\Controllers\API\V1\Package;
 
 use App\Exceptions\ServiceException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreatePackageRequest;
+use App\Http\Requests\CreateOrUpdateRequest;
 use App\Parameters\PackageParameter;
 use App\Services\Contract\PackageServiceContract as PackageService;
 
-class CreatePackageController extends Controller
+class PutPackageController extends Controller
 {
     function __invoke(
-        CreatePackageRequest $request,
+        CreateOrUpdateRequest $request,
         PackageService $packageService,
         PackageParameter $packageParameter
-    )
-    {
+    ) {
         try {
             $packageParameter->setTransactionId($request->transaction_id);
             $packageParameter->setCustomerName($request->customer_name);
@@ -46,7 +46,7 @@ class CreatePackageController extends Controller
                 ]
             );
             $this->smartResponse->setCode(201);
-            $this->smartResponse->setMessage('Create Package Success');
+            $this->smartResponse->setMessage('Update Package Success');
             $this->smartResponse->setData($response->data);
         } catch (ServiceException $th) {
             $this->smartResponse->setCode($th->getCode());
@@ -54,6 +54,5 @@ class CreatePackageController extends Controller
         }
 
         return $this->smartResponse->render(true);
-
     }
 }
