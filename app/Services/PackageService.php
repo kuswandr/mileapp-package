@@ -1,9 +1,11 @@
 <?php
 namespace App\Services;
 
+use App\Exceptions\ServiceException;
 use App\Parameters\PackageParameter;
 use App\Repositories\Contract\PackageRepositoryContract as PackageRepository;
 use App\Services\Contract\PackageServiceContract;
+use GuzzleHttp\Exception\ServerException;
 
 class PackageService implements PackageServiceContract
 {
@@ -18,7 +20,7 @@ class PackageService implements PackageServiceContract
                 [$packageRepository, 'getAll']
             );
             return $this;
-        } catch (\Throwable $th) {
+        } catch (ServiceException $th) {
             return $th;
         }
     }
@@ -33,7 +35,7 @@ class PackageService implements PackageServiceContract
                 ['packageParameter' => $packageParameter]
             );
             return $this;
-        } catch (\Throwable $th) {
+        } catch (ServiceException $th) {
             return $th;
         }
     }
@@ -47,9 +49,13 @@ class PackageService implements PackageServiceContract
                 [$packageRepository, 'getOne'],
                 ['packageParameter' => $packageParameter]
             );
+
+            if (!$this->data) {
+                throw new ServiceException("Candidate Not Found", 404);
+            }
             return $this;
-        } catch (\Throwable $th) {
-            return $th;
+        } catch (ServiceException $e) {
+            throw new ServiceException($e->getMessage(), 500);
         }
     }
 
@@ -64,7 +70,7 @@ class PackageService implements PackageServiceContract
             );
 
             if (!$package) {
-                // threw error
+                throw new ServiceException('Data package not found', 404);
             }
 
             $delete = app()->call(
@@ -73,8 +79,8 @@ class PackageService implements PackageServiceContract
                     'transaction_id' => $packageParameter->getTransactionId()
                 ]
             );
-        } catch (\Throwable $th) {
-            return $th;
+        } catch (ServiceException $e) {
+            throw new ServiceException($e->getMessage(), 500);
         }
     }
     

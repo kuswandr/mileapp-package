@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\API\V1\Package;
 
+use App\Exceptions\ServiceException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePackageRequest;
 use App\Parameters\PackageParameter;
@@ -44,10 +45,15 @@ class CreatePackageController extends Controller
                     'packageParameter' => $packageParameter
                 ]
             );
-            return response()->json(['message' => 'sukses'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            $this->smartResponse->setCode(201);
+            $this->smartResponse->setMessage('Create Package Success');
+            $this->smartResponse->setData($response->data);
+        } catch (ServiceException $th) {
+            $this->smartResponse->setCode($th->getCode());
+            $this->smartResponse->setMessage($th->getMessage());
         }
+
+        return $this->smartResponse->render(true);
 
     }
 }
