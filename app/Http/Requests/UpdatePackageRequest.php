@@ -28,14 +28,21 @@ class UpdatePackageRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            "transaction_id" => ['required', 'string'],
+            "transaction_id" => ['string'],
+            "customer_name" => ['string'],
+            "customer_code" => ['numeric'],
+            "transaction_amount" => ['numeric'],
+            "transaction_discount" => ['numeric'],
+            "transaction_additional_field" => ['string', 'nullable'],
+            "transaction_payment_type" => ['numeric'],
+            "transaction_order" => ['integer'],
+            "organization_id" => ['integer'],
+            "created_at" => ['date'],
+            "updated_at" => ['date'],
+            "transaction_cash_amount" => ['integer'],
+            "transaction_cash_change" => ['integer'],
         ];
 
         return $rules;
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }

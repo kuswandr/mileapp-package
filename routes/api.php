@@ -25,9 +25,10 @@ Route::name('api.v1.')->prefix('v1')->namespace('API\V1')->group(function () {
         Route::name('package.')->prefix('package')->namespace('Package')->group(function () {
             Route::get('/', ListPackageController::class)->name('list');
             Route::get('/{id}', DetailPackageController::class)->name('detail');
-            Route::delete('/{id}', DeletePackageController::class)->name('delete');
             Route::post('/', CreatePackageController::class)->name('create');
-            Route::put('/', PutPackageController::class)->name('put');
+            Route::put('/{id}', PutPackageController::class)->name('put');
+            Route::patch('/{id}', UpdatePackageController::class)->name('update');
+            Route::delete('/{id}', DeletePackageController::class)->name('delete');
         });
     });
 });

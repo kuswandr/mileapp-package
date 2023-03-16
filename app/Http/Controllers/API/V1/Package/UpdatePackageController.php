@@ -4,15 +4,15 @@ namespace App\Http\Controllers\API\V1\Package;
 
 use App\Exceptions\ServiceException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateOrUpdateRequest;
+use App\Http\Requests\UpdatePackageRequest;
 use App\Parameters\PackageParameter;
 use App\Services\Contract\PackageServiceContract as PackageService;
 
-class PutPackageController extends Controller
+class UpdatePackageController extends Controller
 {
     function __invoke(
         $id,
-        CreateOrUpdateRequest $request,
+        UpdatePackageRequest $request,
         PackageService $packageService,
         PackageParameter $packageParameter
     ) {
